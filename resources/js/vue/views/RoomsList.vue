@@ -1,0 +1,3 @@
+<template>
+    rooms list
+</template>
