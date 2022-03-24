@@ -12,7 +12,7 @@ const routes = [
         path: '/auth',
         component: Auth,
         name: 'auth'
-    }
+    },
 ]
 
 const router = createRouter({
