@@ -103,8 +103,7 @@ export default {
                 axios.get('/sanctum/csrf-cookie').then(res => {
                     axios.post(route, body, { headers: headers })
                     .then(res => {
-                        if(res.request.status == 201) {
-                            console.log(document.cookie)
+                        if(res.status == 200) {
                             this.$router.push('/')
                         }
                     })

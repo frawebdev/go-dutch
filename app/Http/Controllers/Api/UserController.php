@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -42,27 +43,16 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        $fields = $request->validate([
-            'email' => 'required|string',
-            'password' => 'required|string'
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
         ]);
-
-        $user = User::where('email', $fields['email'])->first();
-
-        if(!$user || !Hash::check($fields['password'], $user->password)) {
-            return response([
-                'message' => 'Your credentials are wrong'
-            ], 401);
+ 
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
         }
 
-        $token = $user->createToken('usertoken')->plainTextToken;
-
-        $response = [
-            'user' => $user,
-            'token' => $token
-        ];
-
-        return response($response, 201);
+        return response(201);
     }
 
     public function logout(Request $request)

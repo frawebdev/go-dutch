@@ -18,9 +18,6 @@ use App\Http\Controllers\Api\UserController;
 */
 
 //public routes
-Route::get('/isLogged', function() {
-    return Auth::check();
-});
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 

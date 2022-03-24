@@ -4,13 +4,12 @@ const store = createStore({
     state() {
 
         return {
-            loggingToken: null,
             user: null
         }
     },
     mutations: {
-        getLoggingToken(state, token) {
-            state.loggingToken = token
+        getUser(state, data) {
+            state.user = data
         }
     }
 })
