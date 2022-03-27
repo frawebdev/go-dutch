@@ -23,12 +23,15 @@ Route::post('/login', [UserController::class, 'login']);
 
 //protected routes
 Route::group(['middleware' => ['auth:sanctum']], function() {
+    //users
     Route::get('/user', function(Request $request) {
         return $request->user();
     });
+    Route::get('/users', [UserController::class, 'index']);
+    Route::post('/logout', [UserController::class, 'logout']);
+    //rooms
     Route::get('/rooms/{id}', [RoomController::class, 'index']);
     Route::post('/store', [RoomController::class, 'store']);
-    Route::post('/logout', [UserController::class, 'logout']);
 });
 
 
