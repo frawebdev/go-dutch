@@ -29,6 +29,7 @@ class RoomController extends Controller
     {
         $room = new Room();
         $room->title = $request->input('title');
+        $room->admin_id = $request->input('admin_id');
         $room->save();
         
         $room->users()->sync($request->input('users'));

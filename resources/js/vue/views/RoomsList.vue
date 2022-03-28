@@ -1,18 +1,28 @@
 <template>
-    rooms list
-    {{ user }}
+    <div>
+        <ul v-for="room in rooms" :key="room.id">
+            <li>{{ room.title }}</li>
+        </ul>
+        <router-link to="/create-room">create new room</router-link>
+    </div>
 </template>
 
-<script setup>
-import { computed } from 'vue'
-import { useStore } from 'vuex'
+<script>
 
-const store = useStore()
-
-const user = computed(() => {
-    store.state.user
-})
-
-console.log(user)
+export default {
+    data() {
+        
+        return {
+            rooms: null
+        }
+    },
+    mounted() {
+        console.log(this.$store.state.user.id)
+        axios.get('/api/rooms/' + this.$store.state.user.id)
+        .then(res => {
+            this.rooms = res.data
+        })
+    }
+}
 
 </script>

@@ -26,9 +26,9 @@ class UserController extends Controller
         ]);
 
         $user = User::create([
-            'name' => $fields['name'],
-            'email' => $fields['email'],
-            'password' => bcrypt($fields['password'])
+            'name' => $credentials['name'],
+            'email' => $credentials['email'],
+            'password' => bcrypt($credentials['password'])
         ]);
 
         $token = $user->createToken('usertoken')->plainTextToken;
@@ -66,7 +66,7 @@ class UserController extends Controller
 
     public function index()
     {
-        //
+        return User::all();
     }
 
     /**

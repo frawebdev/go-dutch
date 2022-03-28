@@ -2,6 +2,7 @@ import axios from 'axios'
 import { createRouter, createWebHistory } from 'vue-router'
 import Auth from './views/Auth'
 import RoomsList from './views/RoomsList'
+import CreateRoom from './views/CreateRoom'
 
 const requireAuth = async (to, from, next) => {
 
@@ -29,10 +30,16 @@ const routes = [
         beforeEnter: requireAuth
     },
     {
+        path: '/create-room',
+        component: CreateRoom,
+        name: 'create-room',
+        beforeEnter: requireAuth
+    },
+    {
         path: '/auth',
         component: Auth,
         name: 'auth'
-    },
+    }
 ]
 
 const router = createRouter({

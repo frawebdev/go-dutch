@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { createStore } from 'vuex'
+import createPersistedState from "vuex-persistedstate"
 
 const store = createStore({
     state() {
@@ -14,13 +15,14 @@ const store = createStore({
         }
     },
     actions: {
-        async getUser(context) {
-            await axios.get('/api/user')
+        getUser(context) {
+            axios.get('/api/user')
             .then(res => {
                 context.commit('getUser', res.data)
             })
         }   
-    }
+    },
+    plugins: [createPersistedState()]
 })
 
 export default store

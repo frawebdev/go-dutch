@@ -39,8 +39,9 @@
 
 <script>
 //packages
+import { useStore } from 'vuex'
 import useVuelidate from '@vuelidate/core'
-import { required, email } from '@vuelidate/validators'
+import { required, email, minLength, maxLength, alphaNum } from '@vuelidate/validators'
 //components
 import BaseTextInput from '../components/base/BaseTextInput.vue'
 import BaseButton from '../components/base/BaseButton.vue'
@@ -59,15 +60,16 @@ export default {
             email: '',
             password: '',
             error: '',
-            registered: false
+            registered: false,
+            store: useStore()
         }
     },
     validations() {
 
         return {
-            name: {  },
+            name: { minLength: minLength(5), maxLength: maxLength(12) },
             email: { required, email },
-            password: { required }
+            password: { required, minLength: minLength(6), maxLength: maxLength(18), alphaNum }
         }
     },
     methods: {
@@ -104,12 +106,11 @@ export default {
                     axios.post(route, body, { headers: headers })
                     .then( async (res) => {
                         if(res.status == 200) {
-                            await this.$store.dispatch('getUser')
+                            await this.store.dispatch('getUser')
                             this.$router.push('/')
                         }
                     })
                     .catch(err => {
-                        console.log(err)
                         this.error = err.message
                     })
                 })
