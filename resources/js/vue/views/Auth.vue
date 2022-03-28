@@ -102,8 +102,9 @@ export default {
 
                 axios.get('/sanctum/csrf-cookie').then(res => {
                     axios.post(route, body, { headers: headers })
-                    .then(res => {
+                    .then( async (res) => {
                         if(res.status == 200) {
+                            await this.$store.dispatch('getUser')
                             this.$router.push('/')
                         }
                     })
