@@ -40,7 +40,7 @@
 <script>
 //packages
 import useVuelidate from '@vuelidate/core'
-import { required, email, minLength, alphaNum } from '@vuelidate/validators'
+import { required, email, minLength, maxLength, alphaNum } from '@vuelidate/validators'
 //components
 import BaseTextInput from '../components/base/BaseTextInput.vue'
 import BaseButton from '../components/base/BaseButton.vue'
@@ -65,7 +65,7 @@ export default {
     validations() {
 
         return {
-            name: { required, minLength: minLength(5), maxLength: maxLength(12) },
+            name: { minLength: minLength(5), maxLength: maxLength(12) },
             email: { required, email },
             password: { required, minLength: minLength(8), maxLength: maxLength(18), alphaNum }
         }

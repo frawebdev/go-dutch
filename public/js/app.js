@@ -21825,9 +21825,8 @@ __webpack_require__.r(__webpack_exports__);
   validations: function validations() {
     return {
       name: {
-        required: _vuelidate_validators__WEBPACK_IMPORTED_MODULE_3__.required,
         minLength: (0,_vuelidate_validators__WEBPACK_IMPORTED_MODULE_3__.minLength)(5),
-        maxLength: maxLength(12)
+        maxLength: (0,_vuelidate_validators__WEBPACK_IMPORTED_MODULE_3__.maxLength)(12)
       },
       email: {
         required: _vuelidate_validators__WEBPACK_IMPORTED_MODULE_3__.required,
@@ -21836,7 +21835,7 @@ __webpack_require__.r(__webpack_exports__);
       password: {
         required: _vuelidate_validators__WEBPACK_IMPORTED_MODULE_3__.required,
         minLength: (0,_vuelidate_validators__WEBPACK_IMPORTED_MODULE_3__.minLength)(8),
-        maxLength: maxLength(18),
+        maxLength: (0,_vuelidate_validators__WEBPACK_IMPORTED_MODULE_3__.maxLength)(18),
         alphaNum: _vuelidate_validators__WEBPACK_IMPORTED_MODULE_3__.alphaNum
       }
     };
