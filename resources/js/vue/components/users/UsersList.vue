@@ -1,7 +1,8 @@
 <template>
     <div>
-        <BaseTextInput 
+        <BaseInput 
         label="Insert your room's name"
+        type="text"
         v-model="roomName"
         />
         <ul v-for="user in users" :key="user.id">
@@ -12,24 +13,34 @@
         </ul>
         <BaseButton 
         text="create room"
-        @handleClick="$emit('createRoom', selectedUsers, roomName)"
+        @handleClick="emitCreateRoomEvent"
         />
+        <div v-if="v$.$errors">
+            <div v-for="error in v$.$errors" :key="error.$message">
+                {{ error.$message }}
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+//packages
+import useVuelidate from '@vuelidate/core'
+import { required, email, minLength, maxLength } from '@vuelidate/validators'
+//components
 import BaseButton from '../base/BaseButton.vue'
-import BaseTextInput from '../base/BaseTextInput.vue'
+import BaseInput from '../base/BaseInput.vue'
 
 export default {
     components: {
         BaseButton,
-        BaseTextInput
+        BaseInput
     },
     data() {
         return {
+            v$: useVuelidate(),
             users: null,
-            selectedUsers: null,
+            selectedUsers: [],
             roomName: ''
         }
     },
@@ -39,9 +50,28 @@ export default {
             this.users = res.data
         })
     },
+    validations() {
+
+        return {
+            roomName: { minLength: minLength(5), maxLength: maxLength(12) }
+        }
+    },
     methods: {
         storeUser(id) {
-            this.selectedUsers.push(id)
+            if(!this.selectedUsers.includes(id)) {
+                this.selectedUsers.push(id)
+            }
+            else {
+                let itemIndex = this.selectedUsers.indexOf(id)
+                this.selectedUsers.splice(itemIndex, 1)
+            }
+        },
+        emitCreateRoomEvent() {
+            this.v$.$validate()
+
+            if(!this.v$.$error) {
+                this.$emit('createRoomEvent', this.selectedUsers, this.roomName)
+            }
         }
     }
 }

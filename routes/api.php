@@ -28,9 +28,12 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
         return $request->user();
     });
     Route::get('/users', [UserController::class, 'index']);
+    Route::put('/user/{id}', [UserController::class, 'update']);
     Route::post('/logout', [UserController::class, 'logout']);
     //rooms
     Route::get('/rooms/{id}', [RoomController::class, 'index']);
+    Route::get('/room/{id}', [RoomController::class, 'show']);
+    Route::get('/room-users/{id}', [RoomController::class, 'room_users']);
     Route::post('/store', [RoomController::class, 'store']);
 });
 

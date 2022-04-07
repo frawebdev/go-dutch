@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Auth from './views/Auth'
 import RoomsList from './views/RoomsList'
 import CreateRoom from './views/CreateRoom'
+import SingleRoom from './views/SingleRoom'
 
 const requireAuth = async (to, from, next) => {
 
@@ -33,6 +34,12 @@ const routes = [
         path: '/create-room',
         component: CreateRoom,
         name: 'create-room',
+        beforeEnter: requireAuth
+    },
+    {
+        path: '/room/:id',
+        component: SingleRoom,
+        name: 'single-room',
         beforeEnter: requireAuth
     },
     {

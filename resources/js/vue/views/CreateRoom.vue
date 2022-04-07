@@ -2,22 +2,48 @@
     <div>
         <h1>Create room</h1>
         <UsersList 
+        @createRoomEvent="createRoom"
         />
     </div>
+    {{ user }}
 </template>
 
 <script>
 //packages
-import useVuelidate from '@vuelidate/core'
-import { required, minLength, alphaNum } from '@vuelidate/validators'
+import { useStore } from 'vuex'
 //components
 import UsersList from '../components/users/UsersList.vue'
-import BaseTextInput from '../components/base/BaseTextInput.vue'
+import BaseInput from '../components/base/BaseInput.vue'
 
 export default {
+    data() {
+
+        return {
+            store: useStore()
+        }
+    },
     components: {
         UsersList,
-        BaseTextInput
+        BaseInput
+    },
+    methods: {
+        createRoom(users, title) {
+            const headers = {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+
+            const body = {
+                title,
+                users,
+                admin_id: this.$store.state.user.id
+            }
+
+            axios.post('/api/store', body, { headers: headers })
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
+        }
     }
 }
+
 </script>

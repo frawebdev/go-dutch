@@ -2,7 +2,7 @@
     <div>
         <label for="text-input">{{ label }}</label>
         <input 
-        type="text"
+        :type="type"
         name="text-input"
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
@@ -12,9 +12,7 @@
 
 <script setup>
 
-defineProps(['label', 'modelValue'])
-defineEmits([
-    'update:modelValue'
-])
+defineProps(['label', 'modelValue', 'type'])
+defineEmits(['update:modelValue'])
 
 </script>

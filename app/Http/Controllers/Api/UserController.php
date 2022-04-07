@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
@@ -19,26 +20,23 @@ class UserController extends Controller
 
     public function register(Request $request)
     {
-        $fields = $request->validate([
+        $credentials = $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|unique:users,email',
             'password' => 'required|string'
         ]);
 
         $user = User::create([
-            'name' => $fields['name'],
-            'email' => $fields['email'],
-            'password' => bcrypt($fields['password'])
+            'name' => $credentials['name'],
+            'email' => $credentials['email'],
+            'password' => bcrypt($credentials['password'])
         ]);
 
-        $token = $user->createToken('usertoken')->plainTextToken;
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+        }
 
-        $response = [
-            'user' => $user,
-            'token' => $token
-        ];
-
-        return response($response, 201);
+        return response(201);
     }
 
     public function login(Request $request)
@@ -100,7 +98,20 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $roomId = $request->input('roomId');
+        $outcome = $request->input('outcome');
+
+        $user = User::findOrFail($id);
+        $room = Room::findOrFail($roomId);
+        $roomUsers = $room->with('users')->get();
+
+        $user->outcome = $user->outcome + $outcome;
+        $user->update();
+
+        $room->total = $room->total + $outcome;
+        $room->update();
+
+        return $room->total;
     }
 
     /**
